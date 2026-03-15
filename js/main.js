@@ -2,9 +2,11 @@
    HERO — SCROLL-DRIVEN CANVAS ANIMATION
    ============================================================ */
 (function () {
-  const FRAME_COUNT = 192;
-  const FRAME_BASE  = 'images/hero/frames/frame_';
-  const HOLD_MS     = 580;
+  const FRAME_COUNT  = 192;
+  const FRAME_BASE   = 'images/hero/frames/frame_';
+  const HOLD_MS      = 580;
+  /* Start the page after this many frames load — no need to wait for all 192 */
+  const READY_AT     = 40;
 
   const loader    = document.getElementById('hero-loader');
   const loaderBar = document.getElementById('hero-loader-bar');
@@ -12,10 +14,12 @@
   const ctx       = canvas.getContext('2d');
 
   const frames = [];
-  let loadedCount = 0;
-  let currentFrame = 0;
-  let targetFrame = 0;
-  let framesReady = false;
+  let loadedCount   = 0;
+  let currentFrame  = 0;
+  let frameVelocity = 0;
+  let targetFrame   = 0;
+  let framesReady   = false;
+  let started       = false;
 
   /* --- snap-stop state --- */
   const cards = Array.from(document.querySelectorAll('.annotation-card'));
@@ -44,7 +48,7 @@
     const ch = window.innerHeight;
     ctx.clearRect(0, 0, cw, ch);
     const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
-    const drawW = img.naturalWidth * scale;
+    const drawW = img.naturalWidth  * scale;
     const drawH = img.naturalHeight * scale;
     const offsetX = (cw - drawW) / 2;
     const offsetY = (ch - drawH) / 2;
@@ -67,16 +71,12 @@
         setTimeout(() => {
           document.body.style.overflow = '';
           isSnapping = false;
-        }, isMobile ? 320 : HOLD_MS);
+        }, isMobile ? 280 : HOLD_MS);
       }
-      if (!visible) {
-        zone.snapped = false;
-      }
+      if (!visible) zone.snapped = false;
     });
 
-    if (scrollHint) {
-      scrollHint.classList.toggle('is-hidden', progress > 0.05);
-    }
+    if (scrollHint) scrollHint.classList.toggle('is-hidden', progress > 0.05);
   }
 
   /* --- scroll handler --- */
@@ -90,52 +90,92 @@
     updateCards(progress);
   }
 
-  /* --- touch velocity tracking for momentum on lift --- */
+  /* --- spring + friction animation loop ---
+     Replaces lerp+snap. frameVelocity naturally decays so the animation
+     coasts to a stop rather than snapping dead when scroll ends.      */
   const isMobile = 'ontouchstart' in window || window.innerWidth <= 768;
-  const LERP = isMobile ? 0.14 : 0.05;
+  /* SPRING: how hard we pull toward target each tick
+     FRICTION: how much velocity survives each tick (higher = longer coast) */
+  const SPRING   = isMobile ? 0.10 : 0.14;
+  const FRICTION = isMobile ? 0.82 : 0.72;
 
-  let touchVelY = 0;
-  let lastTouchY = 0;
-  let lastTouchTime = 0;
+  function animate() {
+    frameVelocity += (targetFrame - currentFrame) * SPRING;
+    frameVelocity *= FRICTION;
+    /* Hard-stop when fully settled to avoid infinite tiny updates */
+    if (Math.abs(targetFrame - currentFrame) < 0.05 && Math.abs(frameVelocity) < 0.05) {
+      currentFrame  = targetFrame;
+      frameVelocity = 0;
+    } else {
+      currentFrame = Math.min(FRAME_COUNT - 1, Math.max(0, currentFrame + frameVelocity));
+    }
 
-  if (isMobile) {
-    document.addEventListener('touchmove', (e) => {
-      const t = e.touches[0];
-      const now = performance.now();
-      const dt = now - lastTouchTime;
-      if (dt > 0) {
-        touchVelY = (t.clientY - lastTouchY) / dt; /* px/ms, negative = scroll down */
+    const index = Math.round(currentFrame);
+    /* Fall back to nearest loaded frame while remaining frames still load */
+    let img = frames[index];
+    if (!img || !img.complete) {
+      for (let d = 1; d < 16; d++) {
+        if (frames[index - d]?.complete) { img = frames[index - d]; break; }
+        if (frames[index + d]?.complete) { img = frames[index + d]; break; }
       }
-      lastTouchY = t.clientY;
+    }
+    if (img) {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      drawContainFit(img);
+    }
+    requestAnimationFrame(animate);
+  }
+
+  /* --- inject velocity on finger lift so the animation coasts through
+     the same frames the browser momentum scroll would have shown ---    */
+  if (isMobile) {
+    let lastTouchY    = 0;
+    let lastTouchTime = 0;
+    let touchVelY     = 0; /* px/ms, positive = moving finger up = scrolling down */
+
+    document.addEventListener('touchmove', (e) => {
+      const t   = e.touches[0];
+      const now = performance.now();
+      const dt  = now - lastTouchTime;
+      if (dt > 0) touchVelY = (lastTouchY - t.clientY) / dt;
+      lastTouchY    = t.clientY;
       lastTouchTime = now;
     }, { passive: true });
 
     document.addEventListener('touchend', () => {
-      if (!framesReady) return;
-      const section = document.getElementById('hero');
+      if (!framesReady || Math.abs(touchVelY) < 0.05) return;
+      const section    = document.getElementById('hero');
       const scrollable = section.offsetHeight - window.innerHeight;
-      /* Convert finger velocity to extra frames of coast */
+      /* Convert finger speed (px/ms) into frame velocity (frames/tick at 60fps) */
       const framesPerPx = FRAME_COUNT / scrollable;
-      const coast = -touchVelY * 90 * framesPerPx; /* 90ms worth of momentum */
-      targetFrame = Math.min(FRAME_COUNT - 1, Math.max(0, targetFrame + coast));
+      frameVelocity    += touchVelY * (1000 / 60) * framesPerPx * 0.5;
       touchVelY = 0;
     }, { passive: true });
   }
 
-  function animate() {
-    const diff = targetFrame - currentFrame;
-    /* Snap when very close to eliminate slow lerp tail */
-    if (isMobile && Math.abs(diff) < 4) {
-      currentFrame = targetFrame;
-    } else {
-      currentFrame += diff * LERP;
+  /* --- start scroll + animation once READY_AT frames are loaded --- */
+  function onReady() {
+    if (started) return;
+    started     = true;
+    framesReady = true;
+    currentFrame = 0;
+    drawContainFit(frames[0]);
+
+    if (loader) {
+      loader.style.opacity = '0';
+      setTimeout(() => { loader.style.display = 'none'; }, 600);
     }
-    const index = Math.round(currentFrame);
-    if (frames[index]) {
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      drawContainFit(frames[index]);
-    }
-    requestAnimationFrame(animate);
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    animate();
+
+    /* Auto-scroll to glow-end frame right as the loader fades out */
+    setTimeout(() => {
+      const section = document.getElementById('hero');
+      const scrollable = section.offsetHeight - window.innerHeight;
+      window.scrollTo({ top: (36 / 192) * scrollable, behavior: 'smooth' });
+    }, 80);
   }
 
   /* --- preload all frames --- */
@@ -146,45 +186,22 @@
       img.src = `${FRAME_BASE}${pad}.webp`;
       img.onload = () => {
         loadedCount++;
+        /* Scale bar to READY_AT so it hits 100% when the page appears */
         if (loaderBar) {
-          loaderBar.style.width = ((loadedCount / FRAME_COUNT) * 100) + '%';
+          loaderBar.style.width = (Math.min(loadedCount / READY_AT, 1) * 100) + '%';
         }
-        /* Show first frame immediately while rest loads */
         if (loadedCount === 1) {
           resizeCanvas();
           drawContainFit(frames[0]);
         }
-        if (loadedCount === FRAME_COUNT) onAllLoaded();
+        if (loadedCount >= READY_AT) onReady();
       };
       img.onerror = () => {
         loadedCount++;
-        if (loadedCount === FRAME_COUNT) onAllLoaded();
+        if (loadedCount >= READY_AT) onReady();
       };
       frames.push(img);
     }
-  }
-
-  function onAllLoaded() {
-    framesReady = true;
-    currentFrame = 0;
-    drawContainFit(frames[0]);
-
-    if (loader) {
-      loader.style.opacity = '0';
-      setTimeout(() => { loader.style.display = 'none'; }, 650);
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    animate();
-
-    /* Auto-scroll to the frame where the glow disappears (~frame 36/192 = 18.7%) */
-    setTimeout(() => {
-      const section = document.getElementById('hero');
-      const scrollable = section.offsetHeight - window.innerHeight;
-      const glowEndProgress = 36 / 192;
-      window.scrollTo({ top: glowEndProgress * scrollable, behavior: 'smooth' });
-    }, 650);
   }
 
   /* --- init --- */
