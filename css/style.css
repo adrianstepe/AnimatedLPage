@@ -425,14 +425,15 @@ h3 {
    ============================================================ */
 #hero {
   position: relative;
-  height: 300vh;
+  height: 130vh;
 }
 
 @media (min-width: 768px) {
   #hero {
-    height: 180vh;
+    height: 160vh;
   }
 }
+
 
 .hero__sticky {
   position: sticky;

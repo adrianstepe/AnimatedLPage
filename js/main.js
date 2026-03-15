@@ -37,16 +37,13 @@
     if (frames[Math.round(currentFrame)]) drawContainFit(frames[Math.round(currentFrame)]);
   }
 
-  /* --- responsive draw: cover on portrait, contain on landscape --- */
+  /* --- responsive draw: cover-fit, fills viewport edge to edge --- */
   function drawContainFit(img) {
     if (!img || !img.complete) return;
     const cw = window.innerWidth;
     const ch = window.innerHeight;
     ctx.clearRect(0, 0, cw, ch);
-    const isPortrait = ch > cw;
-    const scale = isPortrait
-      ? Math.max(cw / img.naturalWidth, ch / img.naturalHeight)
-      : Math.min(cw / img.naturalWidth, ch / img.naturalHeight);
+    const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
     const drawW = img.naturalWidth * scale;
     const drawH = img.naturalHeight * scale;
     const offsetX = (cw - drawW) / 2;
@@ -95,7 +92,7 @@
 
   /* --- lerp render loop --- */
   function animate() {
-    currentFrame += (targetFrame - currentFrame) * 0.08;
+    currentFrame += (targetFrame - currentFrame) * 0.05;
     const index = Math.round(currentFrame);
     if (frames[index]) {
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
