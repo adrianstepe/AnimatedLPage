@@ -2,7 +2,7 @@
    HERO — SCROLL-DRIVEN CANVAS ANIMATION
    ============================================================ */
 (function () {
-  const FRAME_COUNT = 192;
+  const FRAME_COUNT = 96;
   const FRAME_BASE  = 'images/hero/frames/frame_';
   const HOLD_MS     = 580;
 
@@ -106,11 +106,16 @@
     for (let i = 1; i <= FRAME_COUNT; i++) {
       const img = new Image();
       const pad = String(i).padStart(4, '0');
-      img.src = `${FRAME_BASE}${pad}.jpg`;
+      img.src = `${FRAME_BASE}${pad}.webp`;
       img.onload = () => {
         loadedCount++;
         if (loaderBar) {
           loaderBar.style.width = ((loadedCount / FRAME_COUNT) * 100) + '%';
+        }
+        /* Show first frame immediately while rest loads */
+        if (loadedCount === 1) {
+          resizeCanvas();
+          drawContainFit(frames[0]);
         }
         if (loadedCount === FRAME_COUNT) onAllLoaded();
       };
