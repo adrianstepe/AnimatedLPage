@@ -150,17 +150,13 @@
     onScroll();
     animate();
 
-    /* Auto-scroll nudge: scroll down then back to hint the page is scroll-driven */
+    /* Auto-scroll to the frame where the glow disappears (~frame 36/192 = 18.7%) */
     setTimeout(() => {
-      if (window.scrollY === 0) {
-        window.scrollTo({ top: 80, behavior: 'smooth' });
-        setTimeout(() => {
-          if (window.scrollY <= 90) {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }
-        }, 700);
-      }
-    }, 1400);
+      const section = document.getElementById('hero');
+      const scrollable = section.offsetHeight - window.innerHeight;
+      const glowEndProgress = 36 / 192;
+      window.scrollTo({ top: glowEndProgress * scrollable, behavior: 'smooth' });
+    }, 650);
   }
 
   /* --- init --- */
