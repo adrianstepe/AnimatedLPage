@@ -425,7 +425,7 @@ h3 {
    ============================================================ */
 #hero {
   position: relative;
-  height: 130vh;
+  height: 280vh;
 }
 
 @media (min-width: 768px) {

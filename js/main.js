@@ -60,14 +60,14 @@
       const visible = progress >= zone.show && progress <= zone.hide;
       card.classList.toggle('visible', visible);
 
-      if (visible && !zone.snapped && !isSnapping && !isMobile) {
+      if (visible && !zone.snapped && !isSnapping) {
         zone.snapped = true;
         isSnapping = true;
         document.body.style.overflow = 'hidden';
         setTimeout(() => {
           document.body.style.overflow = '';
           isSnapping = false;
-        }, HOLD_MS);
+        }, isMobile ? 320 : HOLD_MS);
       }
       if (!visible) {
         zone.snapped = false;
