@@ -60,7 +60,7 @@
       const visible = progress >= zone.show && progress <= zone.hide;
       card.classList.toggle('visible', visible);
 
-      if (visible && !zone.snapped && !isSnapping) {
+      if (visible && !zone.snapped && !isSnapping && !isMobile) {
         zone.snapped = true;
         isSnapping = true;
         document.body.style.overflow = 'hidden';
@@ -91,8 +91,17 @@
   }
 
   /* --- lerp render loop --- */
+  const isMobile = 'ontouchstart' in window || window.innerWidth <= 768;
+  const LERP = isMobile ? 0.25 : 0.05;
+
   function animate() {
-    currentFrame += (targetFrame - currentFrame) * 0.05;
+    const diff = targetFrame - currentFrame;
+    /* On mobile snap instantly when close, skip the slow tail */
+    if (isMobile && Math.abs(diff) < 0.5) {
+      currentFrame = targetFrame;
+    } else {
+      currentFrame += diff * LERP;
+    }
     const index = Math.round(currentFrame);
     if (frames[index]) {
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
