@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Nailed It Studio — Rīga's premium nail art and manicure salon. Gel manicure, French manicure, nail art, and pedicure. Book online via Fresha. Strēlnieku iela 13." />
+  <meta property="og:title" content="Nailed It Studio Rīga" />
+  <meta property="og:description" content="Premium nail studio in the heart of Rīga. 5 stars across all reviews. Book your appointment online." />
+  <title>Nailed It Studio Rīga | Premium Nail Art &amp; Manicure</title>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BeautySalon",
+    "name": "Nailed It Studio Rīga",
+    "description": "Rīga's premium nail art and manicure salon. Gel manicure, French manicure, nail art, and pedicure.",
+    "url": "https://nailed-it-demo.pages.dev",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Strēlnieku iela 13",
+      "addressLocality": "Rīga",
+      "addressRegion": "Centra rajons",
+      "addressCountry": "LV"
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday", "Tuesday", "Wednesday", "Thursday",
+        "Friday", "Saturday", "Sunday"
+      ],
+      "opens": "10:00",
+      "closes": "23:00"
+    },
+    "sameAs": ["https://www.instagram.com/nailed.it.riga"],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "5"
+    }
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23E8E0D0'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='18' font-family='Georgia%2Cserif' fill='%230D0D0D'%3EN%3C/text%3E%3C/svg%3E" />
+
+  <link rel="preload" as="image" href="images/hero/hero-bg.jpg" />
+  <link rel="preload" as="image" href="images/hero/frames/frame_0001.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <!-- NAV -->
+  <nav id="nav" aria-label="Main navigation">
+    <a id="nav-logo" href="#hero" class="nav__logo" aria-label="Nailed It Studio — return to top">NAILED IT</a>
+    <button class="nav__burger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="nav-menu" class="nav__menu" role="list">
+      <li><a href="#about" class="nav__link">About</a></li>
+      <li><a href="#services" class="nav__link">Services</a></li>
+      <li><a href="#gallery" class="nav__link">Gallery</a></li>
+      <li>
+        <a href="https://www.fresha.com" class="btn-secondary nav__cta" target="_blank" rel="noopener noreferrer" aria-label="Book an appointment on Fresha">Book Now</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- PRELOADER -->
+  <div id="hero-loader" aria-hidden="true">
+    <div class="hero-loader__inner">
+      <p class="hero-loader__logo">NAILED IT</p>
+      <p class="hero-loader__text">Loading</p>
+      <div class="hero-loader__track">
+        <div class="hero-loader__fill" id="hero-loader-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content">
+
+    <!-- HERO — scroll-driven canvas -->
+    <section id="hero" aria-label="Nailed It Studio Rīga showcase">
+      <h1 class="visually-hidden">Nailed It Studio Rīga — Premium Nail Art &amp; Manicure</h1>
+      <div class="hero__sticky">
+        <canvas id="hero-canvas"></canvas>
+
+        <div class="annotation-card" data-show="0.02" data-hide="0.20">
+          <span class="annotation-card__num">01</span>
+          <div class="annotation-card__body">
+            <p class="annotation-card__title">Precision</p>
+            <p class="annotation-card__desc">Every detail, intentional.</p>
+          </div>
+        </div>
+
+        <div class="annotation-card" data-show="0.25" data-hide="0.45">
+          <span class="annotation-card__num">02</span>
+          <div class="annotation-card__body">
+            <p class="annotation-card__title">Crafted</p>
+            <p class="annotation-card__desc">From formula to finish.</p>
+          </div>
+        </div>
+
+        <div class="annotation-card" data-show="0.50" data-hide="0.70">
+          <span class="annotation-card__num">03</span>
+          <div class="annotation-card__body">
+            <p class="annotation-card__title">Artistry</p>
+            <p class="annotation-card__desc">Your nails. Our obsession.</p>
+          </div>
+        </div>
+
+        <div class="annotation-card annotation-card--cta" data-show="0.75" data-hide="0.95">
+          <span class="annotation-card__num">04</span>
+          <div class="annotation-card__body">
+            <p class="annotation-card__title">Book Now</p>
+            <p class="annotation-card__desc">Strēlnieku iela 13, Rīga.</p>
+            <a href="https://www.fresha.com" class="btn-primary annotation-card__btn" target="_blank" rel="noopener noreferrer" aria-label="Book an appointment on Fresha">Book Appointment</a>
+          </div>
+        </div>
+
+        <div class="hero__scroll-hint" aria-hidden="true">
+          <span>Scroll</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" aria-labelledby="about-heading">
+      <div class="about__inner">
+        <div class="about__text animate-on-scroll reveal-right">
+          <p class="label">About the Studio</p>
+          <h2 id="about-heading">Crafted with care,<br />every time.</h2>
+          <p>Nailed It Studio is Rīga's premium destination for nail art, manicure, and pedicure. Our studio on Strēlnieku iela is built around one principle: every detail matters.</p>
+          <p>From gel manicures to intricate nail art, we take our time with every client. The result is work that lasts — and an experience worth coming back for.</p>
+          <blockquote class="about__quote">
+            <p>"She has eyes for every small detail."</p>
+            <cite>— Susanna, loyal client</cite>
+          </blockquote>
+          <p class="about__stars">★★★★★&nbsp;&nbsp;5.0 · 5 reviews on Google</p>
+        </div>
+        <div class="about__image animate-on-scroll reveal-left">
+          <img src="images/about/about-nails.jpg" alt="Deep burgundy gel nails on a client at Nailed It Studio Rīga" />
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" aria-labelledby="services-heading">
+      <div class="services__header animate-on-scroll reveal">
+        <p class="label">What we offer</p>
+        <h2 id="services-heading">Our Services</h2>
+      </div>
+      <ul class="services__grid" role="list">
+
+        <li class="service-card animate-on-scroll reveal">
+          <svg class="service-card__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 11V9a2 2 0 0 0-2-2 2 2 0 0 0-2 2v0" />
+            <path d="M14 10V8a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2" />
+            <path d="M10 9.5V5a2 2 0 0 0-2-2 2 2 0 0 0-2 2v9" />
+            <path d="M6 14l-1.5-1.5a2 2 0 0 0-2.83 0 2 2 0 0 0 0 2.83l4 4A6 6 0 0 0 12 21h2a6 6 0 0 0 6-6v-4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v1" />
+          </svg>
+          <h3 class="service-card__name">Manicure</h3>
+          <p class="service-card__desc">Classic manicure with cuticle care and hand massage.</p>
+        </li>
+
+        <li class="service-card animate-on-scroll reveal">
+          <svg class="service-card__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 2h6v3H9z" />
+            <rect x="7" y="5" width="10" height="15" rx="2" />
+            <line x1="12" y1="9" x2="12" y2="15" />
+          </svg>
+          <h3 class="service-card__name">Gel Manicure</h3>
+          <p class="service-card__desc">Long-lasting gel polish in any color from our vast collection.</p>
+        </li>
+
+        <li class="service-card animate-on-scroll reveal">
+          <svg class="service-card__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="4" y1="9" x2="20" y2="9" />
+            <line x1="4" y1="15" x2="20" y2="15" />
+          </svg>
+          <h3 class="service-card__name">French Manicure</h3>
+          <p class="service-card__desc">Rīga's finest French manicure — precision and elegance.</p>
+        </li>
+
+        <li class="service-card animate-on-scroll reveal">
+          <svg class="service-card__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="12" y1="2" x2="12" y2="6" />
+            <line x1="12" y1="18" x2="12" y2="22" />
+            <line x1="4.22" y1="4.22" x2="7.05" y2="7.05" />
+            <line x1="16.95" y1="16.95" x2="19.78" y2="19.78" />
+            <line x1="2" y1="12" x2="6" y2="12" />
+            <line x1="18" y1="12" x2="22" y2="12" />
+            <line x1="4.22" y1="19.78" x2="7.05" y2="16.95" />
+            <line x1="16.95" y1="7.05" x2="19.78" y2="4.22" />
+          </svg>
+          <h3 class="service-card__name">Nail Art</h3>
+          <p class="service-card__desc">Custom designs — geometric, abstract, or anything you imagine.</p>
+        </li>
+
+        <li class="service-card animate-on-scroll reveal">
+          <svg class="service-card__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M10 3c0 1.5-2 3-2 5s1.5 3.5 4 3.5S16 9.5 16 8s-2-3.5-2-5" />
+            <path d="M8 21h8" />
+            <path d="M8 21c0-3 1-5 2-7" />
+            <path d="M16 21c0-3-1-5-2-7" />
+          </svg>
+          <h3 class="service-card__name">Pedicure</h3>
+          <p class="service-card__desc">Full pedicure treatment with cuticle care and scrub.</p>
+        </li>
+
+        <li class="service-card animate-on-scroll reveal">
+          <svg class="service-card__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" />
+            <line x1="7" y1="7" x2="17" y2="17" />
+            <line x1="17" y1="7" x2="7" y2="17" />
+          </svg>
+          <h3 class="service-card__name">Removal</h3>
+          <p class="service-card__desc">Safe gel and acrylic removal with nail care included.</p>
+        </li>
+
+      </ul>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery" aria-labelledby="gallery-heading">
+      <div class="gallery__header animate-on-scroll reveal">
+        <p class="label">Portfolio</p>
+        <h2 id="gallery-heading">The work speaks<br />for itself.</h2>
+      </div>
+      <div class="gallery__strip" role="region" aria-label="Portfolio gallery — scroll to view more" tabindex="0">
+        <article class="gallery__item">
+          <img src="images/gallery/black-geometric.jpg" alt="Black geometric French nail art" loading="lazy" />
+          <p class="gallery__caption" aria-hidden="true">Black geometric french</p>
+        </article>
+        <article class="gallery__item">
+          <img src="images/gallery/burgundy-nails.jpg" alt="Deep burgundy gel nails" loading="lazy" />
+          <p class="gallery__caption" aria-hidden="true">Deep burgundy gel</p>
+        </article>
+        <article class="gallery__item">
+          <img src="images/gallery/red-shimmer-close.jpg" alt="Cherry shimmer nail art close-up" loading="lazy" />
+          <p class="gallery__caption" aria-hidden="true">Cherry shimmer</p>
+        </article>
+        <article class="gallery__item">
+          <img src="images/gallery/red-shimmer-full.jpg" alt="Cherry shimmer full set of nails" loading="lazy" />
+          <p class="gallery__caption" aria-hidden="true">Cherry shimmer — full set</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials" aria-labelledby="testimonials-heading">
+      <div class="testimonials__header animate-on-scroll reveal">
+        <p class="label">Client love</p>
+        <h2 id="testimonials-heading">What our clients say</h2>
+      </div>
+      <div class="testimonials__grid">
+
+        <article class="review-card animate-on-scroll reveal">
+          <p class="review-card__stars" aria-label="5 out of 5 stars">★★★★★</p>
+          <blockquote class="review-card__quote">
+            <p>"I have never seen a salon that was so sterile and clean. The files were thrown away immediately after use, and the table and all surfaces were cleaned. The color selection of the gels was enormous — they even had colors I couldn't get in other salons. The woman was good, nice, and even spoke English. She knew what she was doing and you could see that she was putting in the effort. I'll be back with my next new set of nails!"</p>
+          </blockquote>
+          <footer class="review-card__footer">
+            <span class="review-card__name">Vaida Tauraite</span>
+            <span class="review-card__tag">Removal</span>
+          </footer>
+        </article>
+
+        <article class="review-card animate-on-scroll reveal">
+          <p class="review-card__stars" aria-label="5 out of 5 stars">★★★★★</p>
+          <blockquote class="review-card__quote">
+            <p>"I did my manicure with Kristīne and now this will be my go-to for manicure and pedicure. This was a 10/10 experience! She speaks perfect English, has a heart of gold, and takes her time with the nails. She has eyes for every small detail! The atmosphere in the nail salon is so warm and friendly. I will see you soon! Liels Paldies!"</p>
+          </blockquote>
+          <footer class="review-card__footer">
+            <span class="review-card__name">Adela Hansen</span>
+            <span class="review-card__tag">Manicure</span>
+          </footer>
+        </article>
+
+        <article class="review-card animate-on-scroll reveal">
+          <p class="review-card__stars" aria-label="5 out of 5 stars">★★★★★</p>
+          <blockquote class="review-card__quote">
+            <p>"I've been visiting Diana at Nailed It for over a year, and every time I leave absolutely delighted! She's not just a skilled master — she's a true professional with incredible attention to detail. The manicure is always impeccable and long-lasting, and her French is a true work of art. Diana has the BEST French manicure in Rīga! Plus — convenient location, delicious coffee and tea, and the atmosphere is always cozy."</p>
+          </blockquote>
+          <footer class="review-card__footer">
+            <span class="review-card__name">Susanna</span>
+            <span class="review-card__tag">Pedicure · Manicure · Gel · French</span>
+          </footer>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- BOOKING CTA -->
+    <section id="book" aria-labelledby="book-heading">
+      <div class="book__content animate-on-scroll reveal">
+        <p class="label">Ready for your next set?</p>
+        <h2 id="book-heading">Book your appointment<br />today.</h2>
+        <p class="book__body">
+          We're open every day from 10:00 to 23:00.<br />
+          Find us at Strēlnieku iela 13, Centra rajons, Rīga.<br />
+          Parking available.
+        </p>
+        <a href="https://www.fresha.com" class="btn-primary" target="_blank" rel="noopener noreferrer" aria-label="Book an appointment on Fresha">Book on Fresha →</a>
+        <p id="hours-badge" class="book__hours-badge" aria-live="polite"></p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer__inner">
+      <div class="footer__col footer__col--brand">
+        <p class="footer__logo">NAILED IT</p>
+        <p class="footer__handle">nailed.it.riga</p>
+        <p class="footer__tagline">Premium nail studio, Rīga.</p>
+      </div>
+      <div class="footer__col">
+        <p class="footer__col--label">Find us</p>
+        <address>
+          Strēlnieku iela 13<br />
+          Centra rajons, Rīga<br />
+          Mon – Sun: 10:00 – 23:00<br />
+          Parking available
+        </address>
+      </div>
+      <div class="footer__col">
+        <p class="footer__col--label">Follow along</p>
+        <ul class="footer__links" role="list">
+          <li>
+            <a href="https://www.instagram.com/nailed.it.riga" target="_blank" rel="noopener noreferrer" aria-label="Follow Nailed It Studio on Instagram">Instagram: @nailed.it.riga</a>
+          </li>
+          <li>
+            <a href="https://www.fresha.com" target="_blank" rel="noopener noreferrer" aria-label="Book an appointment on Fresha">Book via Fresha</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© 2025 Nailed It Studio Rīga. All rights reserved.</p>
+      <p>Built by <a href="https://www.fiverr.com/adrianstee" target="_blank" rel="noopener noreferrer">Stepe Digital</a></p>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+
+</body>
+</html>
