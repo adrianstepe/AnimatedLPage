@@ -2,11 +2,9 @@
    HERO — SCROLL-DRIVEN CANVAS ANIMATION
    ============================================================ */
 (function () {
-  const FRAME_COUNT  = 192;
-  const FRAME_BASE   = 'images/hero/frames/frame_';
-  const HOLD_MS      = 580;
-  /* Start the page after this many frames load — no need to wait for all 192 */
-  const READY_AT     = 40;
+  const FRAME_COUNT = 192;
+  const FRAME_BASE  = 'images/hero/frames/frame_';
+  const HOLD_MS     = 580;
 
   const loader    = document.getElementById('hero-loader');
   const loaderBar = document.getElementById('hero-loader-bar');
@@ -14,15 +12,14 @@
   const ctx       = canvas.getContext('2d');
 
   const frames = [];
-  let loadedCount   = 0;
-  let currentFrame  = 0;
-  let frameVelocity = 0;
-  let targetFrame   = 0;
-  let framesReady   = false;
-  let started       = false;
+  let loadedCount  = 0;
+  let currentFrame = 0;
+  let targetFrame  = 0;
+  let framesReady  = false;
 
-  /* --- snap-stop state --- */
-  const cards = Array.from(document.querySelectorAll('.annotation-card'));
+  /* --- snap-stop state (desktop only — mobile stays fluid) --- */
+  const isMobile = 'ontouchstart' in window || window.innerWidth <= 768;
+  const cards    = Array.from(document.querySelectorAll('.annotation-card'));
   const snapZones = cards.map(card => ({
     show:    parseFloat(card.dataset.show),
     hide:    parseFloat(card.dataset.hide),
@@ -55,7 +52,7 @@
     ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
   }
 
-  /* --- annotation card visibility + snap-stop --- */
+  /* --- annotation card visibility + snap-stop (snap-stop desktop only) --- */
   const scrollHint = document.querySelector('.hero__scroll-hint');
 
   function updateCards(progress) {
@@ -64,14 +61,15 @@
       const visible = progress >= zone.show && progress <= zone.hide;
       card.classList.toggle('visible', visible);
 
-      if (visible && !zone.snapped && !isSnapping) {
+      /* Snap-stop only on desktop — mobile must stay fluid so all 192 frames are visible */
+      if (!isMobile && visible && !zone.snapped && !isSnapping) {
         zone.snapped = true;
-        isSnapping = true;
+        isSnapping   = true;
         document.body.style.overflow = 'hidden';
         setTimeout(() => {
           document.body.style.overflow = '';
           isSnapping = false;
-        }, isMobile ? 280 : HOLD_MS);
+        }, HOLD_MS);
       }
       if (!visible) zone.snapped = false;
     });
@@ -90,74 +88,30 @@
     updateCards(progress);
   }
 
-  /* --- spring + friction animation loop ---
-     Replaces lerp+snap. frameVelocity naturally decays so the animation
-     coasts to a stop rather than snapping dead when scroll ends.      */
-  const isMobile = 'ontouchstart' in window || window.innerWidth <= 768;
-  /* SPRING: how hard we pull toward target each tick
-     FRICTION: how much velocity survives each tick (higher = longer coast) */
-  const SPRING   = isMobile ? 0.10 : 0.14;
-  const FRICTION = isMobile ? 0.82 : 0.72;
+  /* --- lerp render loop ---
+     High LERP (0.45) on mobile keeps currentFrame very close to targetFrame
+     so the animation tracks scroll without visible frame-skipping.
+     Tight snap threshold (< 1) eliminates any slow tail.              */
+  const LERP = isMobile ? 0.45 : 0.08;
 
   function animate() {
-    frameVelocity += (targetFrame - currentFrame) * SPRING;
-    frameVelocity *= FRICTION;
-    /* Hard-stop when fully settled to avoid infinite tiny updates */
-    if (Math.abs(targetFrame - currentFrame) < 0.05 && Math.abs(frameVelocity) < 0.05) {
-      currentFrame  = targetFrame;
-      frameVelocity = 0;
+    const diff = targetFrame - currentFrame;
+    if (Math.abs(diff) < 1) {
+      currentFrame = targetFrame;
     } else {
-      currentFrame = Math.min(FRAME_COUNT - 1, Math.max(0, currentFrame + frameVelocity));
+      currentFrame += diff * LERP;
     }
-
     const index = Math.round(currentFrame);
-    /* Fall back to nearest loaded frame while remaining frames still load */
-    let img = frames[index];
-    if (!img || !img.complete) {
-      for (let d = 1; d < 16; d++) {
-        if (frames[index - d]?.complete) { img = frames[index - d]; break; }
-        if (frames[index + d]?.complete) { img = frames[index + d]; break; }
-      }
-    }
-    if (img) {
+    if (frames[index]) {
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      drawContainFit(img);
+      drawContainFit(frames[index]);
     }
     requestAnimationFrame(animate);
   }
 
-  /* --- inject velocity on finger lift so the animation coasts through
-     the same frames the browser momentum scroll would have shown ---    */
-  if (isMobile) {
-    let lastTouchY    = 0;
-    let lastTouchTime = 0;
-    let touchVelY     = 0; /* px/ms, positive = moving finger up = scrolling down */
-
-    document.addEventListener('touchmove', (e) => {
-      const t   = e.touches[0];
-      const now = performance.now();
-      const dt  = now - lastTouchTime;
-      if (dt > 0) touchVelY = (lastTouchY - t.clientY) / dt;
-      lastTouchY    = t.clientY;
-      lastTouchTime = now;
-    }, { passive: true });
-
-    document.addEventListener('touchend', () => {
-      if (!framesReady || Math.abs(touchVelY) < 0.05) return;
-      const section    = document.getElementById('hero');
-      const scrollable = section.offsetHeight - window.innerHeight;
-      /* Convert finger speed (px/ms) into frame velocity (frames/tick at 60fps) */
-      const framesPerPx = FRAME_COUNT / scrollable;
-      frameVelocity    += touchVelY * (1000 / 60) * framesPerPx * 0.5;
-      touchVelY = 0;
-    }, { passive: true });
-  }
-
-  /* --- start scroll + animation once READY_AT frames are loaded --- */
-  function onReady() {
-    if (started) return;
-    started     = true;
-    framesReady = true;
+  /* --- all frames loaded --- */
+  function onAllLoaded() {
+    framesReady  = true;
     currentFrame = 0;
     drawContainFit(frames[0]);
 
@@ -170,12 +124,12 @@
     onScroll();
     animate();
 
-    /* Auto-scroll to glow-end frame right as the loader fades out */
+    /* Auto-scroll to glow-end frame immediately as loader fades */
     setTimeout(() => {
-      const section = document.getElementById('hero');
+      const section    = document.getElementById('hero');
       const scrollable = section.offsetHeight - window.innerHeight;
       window.scrollTo({ top: (36 / 192) * scrollable, behavior: 'smooth' });
-    }, 80);
+    }, 50);
   }
 
   /* --- preload all frames --- */
@@ -186,19 +140,18 @@
       img.src = `${FRAME_BASE}${pad}.webp`;
       img.onload = () => {
         loadedCount++;
-        /* Scale bar to READY_AT so it hits 100% when the page appears */
         if (loaderBar) {
-          loaderBar.style.width = (Math.min(loadedCount / READY_AT, 1) * 100) + '%';
+          loaderBar.style.width = ((loadedCount / FRAME_COUNT) * 100) + '%';
         }
         if (loadedCount === 1) {
           resizeCanvas();
           drawContainFit(frames[0]);
         }
-        if (loadedCount >= READY_AT) onReady();
+        if (loadedCount === FRAME_COUNT) onAllLoaded();
       };
       img.onerror = () => {
         loadedCount++;
-        if (loadedCount >= READY_AT) onReady();
+        if (loadedCount === FRAME_COUNT) onAllLoaded();
       };
       frames.push(img);
     }
