@@ -149,6 +149,18 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     animate();
+
+    /* Auto-scroll nudge: scroll down then back to hint the page is scroll-driven */
+    setTimeout(() => {
+      if (window.scrollY === 0) {
+        window.scrollTo({ top: 80, behavior: 'smooth' });
+        setTimeout(() => {
+          if (window.scrollY <= 90) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        }, 700);
+      }
+    }, 1400);
   }
 
   /* --- init --- */
