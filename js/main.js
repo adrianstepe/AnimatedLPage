@@ -2,7 +2,7 @@
    HERO — SCROLL-DRIVEN CANVAS ANIMATION
    ============================================================ */
 (function () {
-  const FRAME_COUNT = 96;
+  const FRAME_COUNT = 192;
   const FRAME_BASE  = 'images/hero/frames/frame_';
   const HOLD_MS     = 580;
 
