@@ -208,6 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
   floatingBtn.textContent = 'Book Now';
   document.body.appendChild(floatingBtn);
 
+  const heroSection = document.getElementById('hero');
+
   const onScroll = () => {
     const y = window.scrollY;
 
@@ -216,6 +218,13 @@ document.addEventListener('DOMContentLoaded', () => {
         nav.classList.add('scrolled');
       } else {
         nav.classList.remove('scrolled');
+      }
+
+      const heroHeight = heroSection ? heroSection.offsetHeight : 0;
+      if (y > heroHeight) {
+        nav.classList.add('nav--light');
+      } else {
+        nav.classList.remove('nav--light');
       }
     }
 

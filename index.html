@@ -29,13 +29,13 @@
         "Friday", "Saturday", "Sunday"
       ],
       "opens": "10:00",
-      "closes": "23:00"
+      "closes": "19:00"
     },
     "sameAs": ["https://www.instagram.com/nailed.it.riga"],
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "5.0",
-      "reviewCount": "5"
+      "reviewCount": "125"
     }
   }
   </script>
@@ -55,7 +55,9 @@
 
   <!-- NAV -->
   <nav id="nav" aria-label="Main navigation">
-    <a id="nav-logo" href="#hero" class="nav__logo" aria-label="Nailed It Studio — return to top">NAILED IT</a>
+    <a id="nav-logo" href="#hero" class="nav__logo" aria-label="Nailed It Studio — return to top">
+      <img src="images/Logo.Banner.avif" alt="Nailed It Studio Rīga" />
+    </a>
     <button class="nav__burger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-menu">
       <span></span>
       <span></span>
@@ -66,7 +68,7 @@
       <li><a href="#services" class="nav__link">Services</a></li>
       <li><a href="#gallery" class="nav__link">Gallery</a></li>
       <li>
-        <a href="https://www.fresha.com" class="btn-secondary nav__cta" target="_blank" rel="noopener noreferrer" aria-label="Book an appointment on Fresha">Book Now</a>
+        <a href="https://www.fresha.com/a/nailed-it-riga-riga-strelnieku-iela-13-zwui20id/all-offer?menu=true&pId=471724&rwg_token=AFd1xnEaPQf7HFHore4tCIMpOOMPL-XO6I10zDHYi-LiZ5IM6ndvBkzjsz77jy-uZB2_r6W2xWU7r8Ko00H-mWl8J_kfk3NAQg%3D%3D" class="btn-secondary nav__cta" target="_blank" rel="noopener noreferrer" aria-label="Book an appointment on Fresha">Book Now</a>
       </li>
     </ul>
   </nav>
@@ -119,7 +121,7 @@
           <div class="annotation-card__body">
             <p class="annotation-card__title">Book Now</p>
             <p class="annotation-card__desc">Strēlnieku iela 13, Rīga.</p>
-            <a href="https://www.fresha.com" class="btn-primary annotation-card__btn" target="_blank" rel="noopener noreferrer" aria-label="Book an appointment on Fresha">Book Appointment</a>
+            <a href="https://www.fresha.com/a/nailed-it-riga-riga-strelnieku-iela-13-zwui20id/all-offer?menu=true&pId=471724&rwg_token=AFd1xnEaPQf7HFHore4tCIMpOOMPL-XO6I10zDHYi-LiZ5IM6ndvBkzjsz77jy-uZB2_r6W2xWU7r8Ko00H-mWl8J_kfk3NAQg%3D%3D" class="btn-primary annotation-card__btn" target="_blank" rel="noopener noreferrer" aria-label="Book an appointment on Fresha">Book Appointment</a>
           </div>
         </div>
 
@@ -128,6 +130,8 @@
         </div>
       </div>
     </section>
+
+    <div class="hero__fade" aria-hidden="true"></div>
 
     <!-- ABOUT -->
     <section id="about" aria-labelledby="about-heading">
@@ -141,10 +145,13 @@
             <p>"She has eyes for every small detail."</p>
             <cite>— Susanna, loyal client</cite>
           </blockquote>
-          <p class="about__stars">★★★★★&nbsp;&nbsp;5.0 · 5 reviews on Google</p>
+          <p class="about__stars">★★★★★&nbsp;&nbsp;5.0 · 125 reviews on Google</p>
         </div>
         <div class="about__image animate-on-scroll reveal-left">
-          <img src="images/about/about-nails.jpg" alt="Deep burgundy gel nails on a client at Nailed It Studio Rīga" />
+          <div class="about__image-main">
+            <img src="images/about/about-nails.jpg" alt="Deep burgundy gel nails on a client at Nailed It Studio Rīga" />
+          </div>
+          <img src="images/SalonInterior.avif" class="about__image-accent" alt="Nailed It Studio interior in Rīga" loading="lazy" />
         </div>
       </div>
     </section>
@@ -263,21 +270,10 @@
         <article class="review-card animate-on-scroll reveal">
           <p class="review-card__stars" aria-label="5 out of 5 stars">★★★★★</p>
           <blockquote class="review-card__quote">
-            <p>"I have never seen a salon that was so sterile and clean. The files were thrown away immediately after use, and the table and all surfaces were cleaned. The color selection of the gels was enormous — they even had colors I couldn't get in other salons. The woman was good, nice, and even spoke English. She knew what she was doing and you could see that she was putting in the effort. I'll be back with my next new set of nails!"</p>
+            <p>"Amazing quality and attention to detail!"</p>
           </blockquote>
           <footer class="review-card__footer">
-            <span class="review-card__name">Vaida Tauraite</span>
-            <span class="review-card__tag">Removal</span>
-          </footer>
-        </article>
-
-        <article class="review-card animate-on-scroll reveal">
-          <p class="review-card__stars" aria-label="5 out of 5 stars">★★★★★</p>
-          <blockquote class="review-card__quote">
-            <p>"I did my manicure with Kristīne and now this will be my go-to for manicure and pedicure. This was a 10/10 experience! She speaks perfect English, has a heart of gold, and takes her time with the nails. She has eyes for every small detail! The atmosphere in the nail salon is so warm and friendly. I will see you soon! Liels Paldies!"</p>
-          </blockquote>
-          <footer class="review-card__footer">
-            <span class="review-card__name">Adela Hansen</span>
+            <span class="review-card__name">Brigita L.</span>
             <span class="review-card__tag">Manicure</span>
           </footer>
         </article>
@@ -285,11 +281,22 @@
         <article class="review-card animate-on-scroll reveal">
           <p class="review-card__stars" aria-label="5 out of 5 stars">★★★★★</p>
           <blockquote class="review-card__quote">
-            <p>"I've been visiting Diana at Nailed It for over a year, and every time I leave absolutely delighted! She's not just a skilled master — she's a true professional with incredible attention to detail. The manicure is always impeccable and long-lasting, and her French is a true work of art. Diana has the BEST French manicure in Rīga! Plus — convenient location, delicious coffee and tea, and the atmosphere is always cozy."</p>
+            <p>"Perfect as always!"</p>
           </blockquote>
           <footer class="review-card__footer">
-            <span class="review-card__name">Susanna</span>
-            <span class="review-card__tag">Pedicure · Manicure · Gel · French</span>
+            <span class="review-card__name">Marija G.</span>
+            <span class="review-card__tag">Gel Manicure</span>
+          </footer>
+        </article>
+
+        <article class="review-card animate-on-scroll reveal">
+          <p class="review-card__stars" aria-label="5 out of 5 stars">★★★★★</p>
+          <blockquote class="review-card__quote">
+            <p>"I've done nails like 20 years, got to Kristina a few months ago — she is the best so far, really."</p>
+          </blockquote>
+          <footer class="review-card__footer">
+            <span class="review-card__name">Dace R.</span>
+            <span class="review-card__tag">Manicure</span>
           </footer>
         </article>
 
@@ -302,11 +309,11 @@
         <p class="label">Ready for your next set?</p>
         <h2 id="book-heading">Book your appointment<br />today.</h2>
         <p class="book__body">
-          We're open every day from 10:00 to 23:00.<br />
+          We're open every day from 10:00 to 19:00.<br />
           Find us at Strēlnieku iela 13, Centra rajons, Rīga.<br />
           Parking available.
         </p>
-        <a href="https://www.fresha.com" class="btn-primary" target="_blank" rel="noopener noreferrer" aria-label="Book an appointment on Fresha">Book on Fresha →</a>
+        <a href="https://www.fresha.com/a/nailed-it-riga-riga-strelnieku-iela-13-zwui20id/all-offer?menu=true&pId=471724&rwg_token=AFd1xnEaPQf7HFHore4tCIMpOOMPL-XO6I10zDHYi-LiZ5IM6ndvBkzjsz77jy-uZB2_r6W2xWU7r8Ko00H-mWl8J_kfk3NAQg%3D%3D" class="btn-primary" target="_blank" rel="noopener noreferrer" aria-label="Book an appointment on Fresha">Book on Fresha →</a>
         <p id="hours-badge" class="book__hours-badge" aria-live="polite"></p>
       </div>
     </section>
@@ -326,7 +333,7 @@
         <address>
           Strēlnieku iela 13<br />
           Centra rajons, Rīga<br />
-          Mon – Sun: 10:00 – 23:00<br />
+          Mon – Sun: 10:00 – 19:00<br />
           Parking available
         </address>
       </div>
@@ -337,7 +344,7 @@
             <a href="https://www.instagram.com/nailed.it.riga" target="_blank" rel="noopener noreferrer" aria-label="Follow Nailed It Studio on Instagram">Instagram: @nailed.it.riga</a>
           </li>
           <li>
-            <a href="https://www.fresha.com" target="_blank" rel="noopener noreferrer" aria-label="Book an appointment on Fresha">Book via Fresha</a>
+            <a href="https://www.fresha.com/a/nailed-it-riga-riga-strelnieku-iela-13-zwui20id/all-offer?menu=true&pId=471724&rwg_token=AFd1xnEaPQf7HFHore4tCIMpOOMPL-XO6I10zDHYi-LiZ5IM6ndvBkzjsz77jy-uZB2_r6W2xWU7r8Ko00H-mWl8J_kfk3NAQg%3D%3D" target="_blank" rel="noopener noreferrer" aria-label="Book an appointment on Fresha">Book via Fresha</a>
           </li>
         </ul>
       </div>
