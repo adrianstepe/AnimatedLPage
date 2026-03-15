@@ -90,14 +90,42 @@
     updateCards(progress);
   }
 
-  /* --- lerp render loop --- */
+  /* --- touch velocity tracking for momentum on lift --- */
   const isMobile = 'ontouchstart' in window || window.innerWidth <= 768;
-  const LERP = isMobile ? 0.07 : 0.05;
+  const LERP = isMobile ? 0.14 : 0.05;
+
+  let touchVelY = 0;
+  let lastTouchY = 0;
+  let lastTouchTime = 0;
+
+  if (isMobile) {
+    document.addEventListener('touchmove', (e) => {
+      const t = e.touches[0];
+      const now = performance.now();
+      const dt = now - lastTouchTime;
+      if (dt > 0) {
+        touchVelY = (t.clientY - lastTouchY) / dt; /* px/ms, negative = scroll down */
+      }
+      lastTouchY = t.clientY;
+      lastTouchTime = now;
+    }, { passive: true });
+
+    document.addEventListener('touchend', () => {
+      if (!framesReady) return;
+      const section = document.getElementById('hero');
+      const scrollable = section.offsetHeight - window.innerHeight;
+      /* Convert finger velocity to extra frames of coast */
+      const framesPerPx = FRAME_COUNT / scrollable;
+      const coast = -touchVelY * 90 * framesPerPx; /* 90ms worth of momentum */
+      targetFrame = Math.min(FRAME_COUNT - 1, Math.max(0, targetFrame + coast));
+      touchVelY = 0;
+    }, { passive: true });
+  }
 
   function animate() {
     const diff = targetFrame - currentFrame;
-    /* On mobile snap instantly when close, skip the slow tail */
-    if (isMobile && Math.abs(diff) < 0.5) {
+    /* Snap when very close to eliminate slow lerp tail */
+    if (isMobile && Math.abs(diff) < 4) {
       currentFrame = targetFrame;
     } else {
       currentFrame += diff * LERP;
