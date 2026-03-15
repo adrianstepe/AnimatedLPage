@@ -92,7 +92,7 @@
 
   /* --- lerp render loop --- */
   const isMobile = 'ontouchstart' in window || window.innerWidth <= 768;
-  const LERP = isMobile ? 0.12 : 0.05;
+  const LERP = isMobile ? 0.07 : 0.05;
 
   function animate() {
     const diff = targetFrame - currentFrame;
