@@ -27,6 +27,20 @@
   }));
   let isSnapping = false;
 
+  /* Block scroll via wheel/touch without creating a scroll container */
+  const blockWheel = (e) => { e.preventDefault(); };
+  const blockTouch = (e) => { e.preventDefault(); };
+
+  function lockScroll() {
+    window.addEventListener('wheel',     blockWheel, { passive: false });
+    window.addEventListener('touchmove', blockTouch, { passive: false });
+  }
+
+  function unlockScroll() {
+    window.removeEventListener('wheel',     blockWheel);
+    window.removeEventListener('touchmove', blockTouch);
+  }
+
   /* --- canvas sizing --- */
   function resizeCanvas() {
     const dpr = window.devicePixelRatio || 1;
@@ -65,9 +79,9 @@
       if (!isMobile && visible && !zone.snapped && !isSnapping) {
         zone.snapped = true;
         isSnapping   = true;
-        document.body.style.overflow = 'hidden';
+        lockScroll();
         setTimeout(() => {
-          document.body.style.overflow = '';
+          unlockScroll();
           isSnapping = false;
         }, HOLD_MS);
       }
