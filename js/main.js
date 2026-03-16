@@ -158,9 +158,15 @@
   }
 
   /* --- init --- */
+  let resizeTimer;
+  const debouncedResize = () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(resizeCanvas, 150);
+  };
+
   document.addEventListener('DOMContentLoaded', () => {
     resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('resize', debouncedResize);
     preloadFrames();
   });
 }());
@@ -208,31 +214,19 @@ document.addEventListener('DOMContentLoaded', () => {
   floatingBtn.textContent = 'Book Now';
   document.body.appendChild(floatingBtn);
 
-  const heroSection = document.getElementById('hero');
-
+  let scrollRafId = null;
   const onScroll = () => {
-    const y = window.scrollY;
+    if (scrollRafId) return;
+    scrollRafId = requestAnimationFrame(() => {
+      scrollRafId = null;
+      const y = window.scrollY;
 
-    if (nav) {
-      if (y > 60) {
-        nav.classList.add('scrolled');
-      } else {
-        nav.classList.remove('scrolled');
+      if (nav) {
+        nav.classList.toggle('scrolled', y > 60);
       }
 
-      const heroHeight = heroSection ? heroSection.offsetHeight : 0;
-      if (y > heroHeight) {
-        nav.classList.add('nav--light');
-      } else {
-        nav.classList.remove('nav--light');
-      }
-    }
-
-    if (y > 400) {
-      floatingBtn.classList.add('is-visible');
-    } else {
-      floatingBtn.classList.remove('is-visible');
-    }
+      floatingBtn.classList.toggle('is-visible', y > 400);
+    });
   };
 
   window.addEventListener('scroll', onScroll, { passive: true });

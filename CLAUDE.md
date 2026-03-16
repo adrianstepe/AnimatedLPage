@@ -8,7 +8,7 @@ Read this file fully before writing any code.
 ## WHO YOU ARE BUILDING FOR
 
 Developer: Adrians, 18, Latvia.
-Brand: Stepe Digital (Fiverr: adrianstee)
+Brand: Stepe Digital (Fiverr: Adrians S)
 Stack: HTML/CSS/JS, React, Supabase, n8n, Cloudflare Pages
 AI tools in use: Claude Code (you), Gemini for image gen, Lovable, AntiGravity IDE
 
